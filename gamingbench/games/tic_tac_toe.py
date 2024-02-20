@@ -1,4 +1,3 @@
-from pettingzoo.classic import tictactoe_v3
 import numpy as np
 from typing import List
 from gamingbench.utils.history_tracker import GameMatch, Step
