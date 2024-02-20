@@ -65,12 +65,16 @@ def run_game(game_name):
 
     # initialize env and game
     game_env = BaseGameEnv()
-    game = utils.load_game(os.path.join(args.game_config_root, f'{game_name}.yaml'))
-    game_env.save_game_config(utils.load_config(os.path.join(args.game_config_root, f'{game_name}.yaml')))
+    game = utils.load_game(os.path.join(
+        args.game_config_root, f'{game_name}.yaml'))
+    game_env.save_game_config(utils.load_config(
+        os.path.join(args.game_config_root, f'{game_name}.yaml')))
 
     # initialize agents
-    agents = [utils.load_agent(config_path, game=game.game) for config_path in args.agent_configs]
-    models = [utils.load_model(config_path) for config_path in args.model_configs]
+    agents = [utils.load_agent(config_path, game=game.game)
+              for config_path in args.agent_configs]
+    models = [utils.load_model(config_path)
+              for config_path in args.model_configs]
 
     for a, m in zip(agents, models):
         a.set_model(m)
@@ -116,6 +120,8 @@ def run_game(game_name):
             match_arg_list.append({
                 'match_idx': match_idx,
                 'game_name': game_name,
+                'models': models,
+                'reversed_models': reversed_models,
                 'agents': agents,
                 'reversed_agents': reversed_agents,
                 'result_path': result_path,

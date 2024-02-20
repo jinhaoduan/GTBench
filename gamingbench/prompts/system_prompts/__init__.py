@@ -1,11 +1,8 @@
 
 from gamingbench.prompts.system_prompts import tictactoe
 from gamingbench.prompts.system_prompts import connect4
-from gamingbench.prompts.system_prompts import texasholdem
-from gamingbench.prompts.system_prompts import backgammon
 from gamingbench.prompts.system_prompts import breakthrough
 from gamingbench.prompts.system_prompts import first_sealed_auction
-from gamingbench.prompts.system_prompts import gin_rummy
 from gamingbench.prompts.system_prompts import liars_dice
 from gamingbench.prompts.system_prompts import negotiation
 from gamingbench.prompts.system_prompts import nim

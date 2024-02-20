@@ -146,4 +146,3 @@ class LLMBenchLogger:
         logger.addHandler(fh)
 
         return logger
-
