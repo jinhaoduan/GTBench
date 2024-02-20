@@ -37,8 +37,8 @@ GTBench uses [LangChain](https://github.com/langchain-ai/langchain) for LLM Infe
 ## Scripts
 ### LLM-vs-X
 GTBench supports 
-- **LLM-vs-Conventional**: LLM agent complete against conventional solvers such as Monte Carlo Tree Search (MCTS)
-- **LLM-vs-LLM**: LLM agent complete against other LLM agents. 
+- **LLM-vs-Conventional**: LLM agent competes against conventional solvers such as Monte Carlo Tree Search (MCTS)
+- **LLM-vs-LLM**: LLM agent competes against other LLM agents. 
 
 The following is a script for `GPT-3.5-turbo-1106 w/ Prompt Agent` vs. `GPT-3.5-turbo-1106 w/ CoT Agent`, over `Tic-Tac-Toe`
 ```shell
