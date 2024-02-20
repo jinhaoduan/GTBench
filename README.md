@@ -1,7 +1,7 @@
 [comment]: <> (![image]&#40;logo.png&#41;)
 # GTBench: Uncovering the Strategic Reasoning Limitations of LLMs via Game-Theoretic Evaluations
 - **Authors:** Jinhao Duan*, Renming Zhang*, James Diffenderfer, Bhavya Kailkhura, Lichao Sun, Elias Stengel-Eskin, Mohit Bansal, Tianlong Chen, and Kaidi Xu (*equal contribution)
-- [**arXiv**]()
+- [**arXiv**](https://arxiv.org/abs/2402.12348)
 - [**GTBench HF Leaderboard**](https://huggingface.co/spaces/GTBench/GTBench)
 
 ![Figure of GTBench](framework.png)
@@ -81,5 +81,10 @@ Will be ready soon.
 
 Please cite our paper as
 ```
-
+@article{duan2024gtbench,
+    title = {GTBench: Uncovering the Strategic Reasoning Limitations of LLMs via Game-Theoretic Evaluations},
+    author = {Duan, Jinhao and Zhang, Renming and Diffenderfer, James and Kailkhura, Bhavya and Sun, Lichao and Stengel-Eskin, Elias and Bansal, Mohit and Chen, Tianlong and Xu, Kaidi}, 
+    year = {2024},
+    journal={arXiv preprint 2402.12348} 
+}
 ```
