@@ -1,0 +1,8 @@
+agent_name: MCTSAgent
+rollout_count: 1
+uct_c: 2
+max_simulations: 1000
+solve: True
+verbose: False
+num_generations: 1
+majority_vote: False

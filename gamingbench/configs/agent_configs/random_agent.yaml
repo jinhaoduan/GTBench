@@ -1,0 +1,8 @@
+
+agent_name: RandomAgent
+llm_model_path: null
+max_tokens: null
+timeout: null
+num_generations: null
+temperature: null
+majority_vote: null

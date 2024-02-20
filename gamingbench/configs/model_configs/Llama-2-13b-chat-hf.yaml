@@ -1,0 +1,6 @@
+llm_model_path: meta-llama/Llama-2-13b-chat-hf
+max_tokens: 1024
+timeout: 60
+temperature: 1
+model_type: LLMModel
+nick_name: Llama-2-13b-chat-hf

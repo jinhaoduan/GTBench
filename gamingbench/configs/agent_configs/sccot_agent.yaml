@@ -1,0 +1,4 @@
+
+agent_name: SCCoTAgent
+num_generations: 5
+majority_vote: True

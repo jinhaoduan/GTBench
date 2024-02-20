@@ -1,0 +1,6 @@
+llm_model_path: Open-Orca/Mistral-7B-OpenOrca
+max_tokens: 1024
+timeout: 60
+temperature: 0.2
+model_type: LLMModel
+nick_name: Mistral-7B-OpenOrca

@@ -1,0 +1,14 @@
+
+# base config
+agent_name: ToTAgent
+num_generations: 1
+majority_vote: False
+# tot configs
+task_steps: 2
+method_generate: sample
+method_evaluate: vote
+method_select: greedy
+n_generate_sample: 3
+n_evaluate_sample: 3
+n_select_sample: 1
+prompt_sample: standard # or cot

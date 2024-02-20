@@ -1,0 +1,4 @@
+
+agent_name: CoTAgent
+num_generations: 1
+majority_vote: False

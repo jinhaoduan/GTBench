@@ -1,0 +1,3 @@
+agent_name: PromptAgent
+num_generations: 1
+majority_vote: False

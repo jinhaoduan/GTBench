@@ -1,0 +1,6 @@
+llm_model_path: mistralai/Mistral-7B-Instruct-v0.1
+max_tokens: 1024
+timeout: 60
+temperature: 0.2
+model_type: LLMModel
+nick_name: Mistral-7B-Instruct-v01
