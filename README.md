@@ -85,9 +85,9 @@ Will be ready soon.
 Please cite our paper as
 ```
 @article{duan2024gtbench,
-    title = {GTBench: Uncovering the Strategic Reasoning Limitations of LLMs via Game-Theoretic Evaluations},
-    author = {Duan, Jinhao and Zhang, Renming and Diffenderfer, James and Kailkhura, Bhavya and Sun, Lichao and Stengel-Eskin, Elias and Bansal, Mohit and Chen, Tianlong and Xu, Kaidi}, 
-    year = {2024},
-    journal={arXiv preprint 2402.12348} 
+  title={GTBench: Uncovering the Strategic Reasoning Limitations of LLMs via Game-Theoretic Evaluations},
+  author={Duan, Jinhao and Zhang, Renming and Diffenderfer, James and Kailkhura, Bhavya and Sun, Lichao and Stengel-Eskin, Elias and Bansal, Mohit and Chen, Tianlong and Xu, Kaidi},
+  journal={arXiv preprint arXiv:2402.12348},
+  year={2024}
 }
 ```
