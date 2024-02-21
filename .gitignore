@@ -32,3 +32,4 @@ MANIFEST
 *.sqlite3
 venv/*
 experiments/*
+.DS_store
