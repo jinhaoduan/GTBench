@@ -31,7 +31,7 @@ pip install -r requirements.txt
 
 ## LLM Inference
 GTBench uses [LangChain](https://github.com/langchain-ai/langchain) for LLM Inference (`./gamingbench/chat/chat.py`), supporting
-- Remote API access via [Anyscale](https://docs.endpoints.anyscale.com) / [DeepInfra](https://deepinfra.com/models).
+- Remote API access such as [OpenAI](https://openai.com/) / [Anyscale](https://docs.endpoints.anyscale.com) / [DeepInfra](https://deepinfra.com/models).
 - OpenAI-Compatible APIs via [FastChat](https://github.com/lm-sys/FastChat?tab=readme-ov-file#openai-compatible-restful-apis--sdk).
 
 ## Scripts
