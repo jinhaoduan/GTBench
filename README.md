@@ -7,7 +7,7 @@
 ![Figure of GTBench](framework.png)
 
 ## Overview
-This repo contains code for our paper: [GTBench: Uncovering the Strategic Reasoning Limitations of LLMs via Game-Theoretic Evaluations](). 
+This repo contains code for our paper: [GTBench: Uncovering the Strategic Reasoning Limitations of LLMs via Game-Theoretic Evaluations](https://arxiv.org/pdf/2402.12348.pdf). 
 GTBench is a language-driven environment, evaluating the strategic reasoning limitations of LLMs through game-theoretic tasks. 
 GTBench is built on top of [OpenSpiel](https://github.com/google-deepmind/open_spiel), supporting 10 widely-recognized games:
 - <a href="https://en.wikipedia.org/wiki/Tic-tac-toe" target="_blank">  Tic-Tac-Toe</a>
