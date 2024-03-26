@@ -67,7 +67,7 @@ python3 -m gamingbench.main \
     --game-name ${game_name} \
     --agent-configs ${agent_config_root}/${agent_name}.yaml ${agent_config_root}/${opponent_agent_name}.yaml \
     --model-configs ${model_config_root}/${llm_name}.yaml ${model_config_root}/${opponent_llm_name}.yaml \
-    --api-keys ${api_keys} \
+    --api-keys ${api_keys[@]} \
     --exchange-first-player \
     --num-workers ${num_workers} \
     --threshold-matches ${threshold_matches}
