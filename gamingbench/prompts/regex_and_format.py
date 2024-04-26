@@ -34,6 +34,12 @@ def get_step_env_regex_and_format(env_name):
     elif env_name == 'python_iterated_prisoners_dilemma':
         regex = '(<Testify>|<Silent>)'
         format = '<Testify|Silent>, e.g., <Testify>, <Silent>'
+
+    # TO-DO
+    elif env_name == 'crazy_eights': 
+        regex = ''
+        format = ''
+
     else:
         raise NotImplementedError
     return regex, format

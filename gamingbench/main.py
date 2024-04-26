@@ -7,9 +7,11 @@ from gamingbench.utils import utils
 from gamingbench.environments.base_env import BaseGameEnv
 import json
 
-games = ['tictactoe', 'connect4', 'texasholdem', 'neuron_poker', 'backgammon', 'breakthrough',
-         'first_sealed_auction', 'gin_rummy', 'liars_dice', 'negotiation', 'nim', 'pig', 'kuhn_poker',
-         'prisoners_dilemma']
+# games = ['tictactoe', 'connect4', 'texasholdem', 'neuron_poker', 'backgammon', 'breakthrough',
+#          'first_sealed_auction', 'gin_rummy', 'liars_dice', 'negotiation', 'nim', 'pig', 'kuhn_poker',
+#          'prisoners_dilemma']
+
+games = ["crazy_eights"]
 
 
 def get_args():
