@@ -3,7 +3,7 @@
 from gamingbench.games.openspiel_adapter import OpenSpielGame
 
 
-class KuhnPoker(DotsAndBoxes):
+class KuhnPoker(OpenSpielGame):
 
     def __init__(self) -> None:
         super().__init__("dots_and_boxes")

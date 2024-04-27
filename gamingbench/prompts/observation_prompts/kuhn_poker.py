@@ -6,8 +6,6 @@ def _construct_head_prompt():
            '\n' \
            'You are playing Kuhn poker with the opponent. The actions are denoted by <Bet> and <Pass>.' \
 
-
-
 def construct_observation_prompt(observations):
 
     card_mapping = {
