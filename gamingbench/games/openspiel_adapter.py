@@ -19,6 +19,11 @@ class OpenSpielGame:
         if game_name == "crazy_eights": 
             game_name = "crazy_eights(players=2)"
 
+
+        if game_name == "dots_and_boxes": 
+            game_name = "dots_and_boxes(players=2)"
+        
+
         self.game = pyspiel.load_game(game_name)
         self.env = self.game.new_initial_state()
         self.logger = utils.LLMBenchLogger(None)
