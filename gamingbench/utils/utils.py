@@ -38,6 +38,8 @@ def get_game_config_path(game):
         return os.path.join(config_root, 'pig.yaml')
     elif game == 'kuhn_poker':
         return os.path.join(config_root, 'kuhn_poker.yaml')
+    elif game == 'crazy_eights':
+        return os.path.join(config_root, 'crazy_eights.yaml')
     else:
         raise NotImplementedError
 
