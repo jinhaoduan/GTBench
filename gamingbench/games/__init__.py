@@ -8,3 +8,4 @@ from gamingbench.games.nim import Nim
 from gamingbench.games.pig import Pig
 from gamingbench.games.kuhn_poker import KuhnPoker
 from gamingbench.games.prisoners_dilemma import PrisonersDilemma
+from gamingbench.games.crazy_eights import CrazyEights

@@ -34,12 +34,15 @@ def get_step_env_regex_and_format(env_name):
     elif env_name == 'python_iterated_prisoners_dilemma':
         regex = '(<Testify>|<Silent>)'
         format = '<Testify|Silent>, e.g., <Testify>, <Silent>'
-
     # TO-DO
     elif env_name == 'crazy_eights': 
-        regex = ''
-        format = ''
+        # regex = "<(Draw|Pass on Draw|Play (2|3|4|5|6|7|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Play 8 of (Clubs|Diamonds|Hearts|Spades) and Nominate (Clubs|Diamonds|Hearts|Spades))>"
+        # format = "<(Draw|Play (2|3|4|5|6|7|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Play 8 of (Clubs|Diamonds|Hearts|Spades) and Nominate (Clubs|Diamonds|Hearts|Spades))>"
+        # format += ", e.g. <Draw>, <Play 5 of Clubs>, <Play 8 of Diamonds and Nominate Hearts>"
 
+        regex = "<(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>"
+        format = "<(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>"
+        format += ", e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>"
     else:
         raise NotImplementedError
     return regex, format
