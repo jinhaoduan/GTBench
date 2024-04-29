@@ -75,7 +75,7 @@ def run_single_experiment(
     agent_config_root='gamingbench/configs/agent_configs',
     agent_name='prompt_agent',
     opponent_agent_name='prompt_agent',
-    api_keys=[]
+    api_keys=['sk-proj-PhZgYSrRcosjJzEi1ARxT3BlbkFJVpFfRaqj7EtQ0ihuBf9O' 'LpsCdyMP09m8BFVz85Zwrnihk2aNpMMA']
 ):
     command = [
         "python3", "-m", "gamingbench.main",
@@ -109,7 +109,7 @@ def run_single_experiment(
 
 def setup_and_run_experiments(model, method, n):
     static_model = model
-    if n < 3:
+    if n % 2 == 1:
         opponent_model = 'gpt-35-turbo-1106'
     else:
         opponent_model = model
@@ -134,39 +134,51 @@ def setup_and_run_experiments(model, method, n):
 def main():
     models_methods = [
         ("gpt-4-turbo", "prompt_agent"),
-        # ("gpt-4-turbo", "cot_agent"),
-        # ("gpt-35-turbo-1106", "cot_agent"),
-        # ("gpt-35-turbo-1106", "sccot_agent"),
-        # ("gpt-35-turbo-1106", "tot_agent"),
+        ("gpt-4-turbo", "cot_agent"),
+        ("gpt-35-turbo-1106", "cot_agent"),
+        ("gpt-35-turbo-1106", "sccot_agent"),
         ("CodeLlama-34b-Instruct-hf", "prompt_agent"),
-        # ("Llama-2-70b-chat-hf", "sccot_agent"),
-        # ("CodeLlama-34b-Instruct-hf", "cot_agent"),
-        # ("Llama-2-70b-chat-hf", "cot_agent"),
-        # ("CodeLlama-34b-Instruct-hf", "sccot_agent"),
-        # ("CodeLlama-34b-Instruct-hf", "tot_agent"),
+        ("Llama-2-70b-chat-hf", "sccot_agent"),
+        ("CodeLlama-34b-Instruct-hf", "cot_agent"),
+        ("Llama-2-70b-chat-hf", "cot_agent"),
+        ("CodeLlama-34b-Instruct-hf", "sccot_agent"),
         ("Llama-2-70b-chat-hf", "prompt_agent"),
     ]
 
     for model, method in models_methods:
         llm_score = 0
         opponent_score = 0
-        for i in range(4):
+        static_model = model
+        for i in range(8):
             # setup_and_run_experiments(model, method, n=i+1)
+            if i % 2 == 1:
+                model = 'gpt-35-turbo-1106'
+            else:
+                model = static_model
+            # check if this folder exists
+            if not os.path.exists(f'experiments/{static_model}_{method}_{i+1}/{model}/crazy_eights'):
+                continue
             folder = os.listdir(
-                f'experiments/{model}_{method}_{i+1}/{model}/crazy_eights')
+                f'experiments/{static_model}_{method}_{i+1}/{model}/crazy_eights')
             # get the jsonl file from the folder
             jsonl_file = [
                 file for file in folder if file.endswith('.jsonl')][0]
             results = evaluate_single_file(
-                f'experiments/{model}_{method}_{i+1}/{model}/crazy_eights/{jsonl_file}')
-            print(f"Results for {model}_{method}_{i+1}:", results)
-            me = f'{results[0]["agents"][0]["agent_name"]}_{results[0]["agents"][0]["nickname"]}'
-            opponent = f'{results[0]["agents"][1]["agent_name"]}_{results[0]["agents"][1]["nickname"]}'
+                f'experiments/{static_model}_{method}_{i+1}/{model}/crazy_eights/{jsonl_file}')
+            if len(results) == 0:
+                continue
+            # print("results", results)
+            if i % 2 == 1:
+                me = f'{results[0]["agents"][1]["agent_name"]}_{results[0]["agents"][1]["nickname"]}'
+                opponent = f'{results[0]["agents"][0]["agent_name"]}_{results[0]["agents"][0]["nickname"]}'
+            else:
+                me = f'{results[0]["agents"][0]["agent_name"]}_{results[0]["agents"][0]["nickname"]}'
+                opponent = f'{results[0]["agents"][1]["agent_name"]}_{results[0]["agents"][1]["nickname"]}'
             llm_score += results[0]['scores'][me]
             opponent_score += results[0]['scores'][opponent]
         nra = nra_value(llm_score, opponent_score)
-        print(f"{model}_{method} NRA value:", nra)
-        break
+        print(f"{static_model}_{method} NRA value:", nra)
+        # break
 
 
 if __name__ == "__main__":
