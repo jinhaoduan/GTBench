@@ -108,12 +108,13 @@ def run_single_experiment(
 
 
 def setup_and_run_experiments(model, method, n):
+    static_model = model
     if n < 3:
         opponent_model = 'gpt-35-turbo-1106'
     else:
         opponent_model = model
         model = 'gpt-35-turbo-1106'
-    exp_name = f'{model}_{method}_{n}'
+    exp_name = f'{static_model}_{method}_{n}'
     output_root = './experiments'
 
     output_dir = os.path.join(output_root, exp_name)
