@@ -11,6 +11,8 @@ from open_spiel.python import games  # import prisoners_dilemma
 
 import copy
 
+from time import sleep
+
 
 class OpenSpielGame:
     def __init__(self, game_name) -> None:
@@ -21,7 +23,7 @@ class OpenSpielGame:
 
 
         if game_name == "dots_and_boxes": 
-            game_name = "dots_and_boxes(players=2)"
+            game_name = "dots_and_boxes"
         
 
         self.game = pyspiel.load_game(game_name)
@@ -154,11 +156,15 @@ class OpenSpielGame:
 
                 observation_dict['legal_moves'] = valid_action
                 observation_dict['env_name'] = self.game_name
+                print("observations are")
+                print(observation_dict)
                 if len(legal_actions) != 1:
                     action, query_list = agent_list[player_idx].step(
                         observation_dict)
                 else:
                     action, query_list = valid_action[0], []
+
+                action = ''.join(('<',action[0],'>'))
 
                 act = self.quick_action_memory_for_llm.get(
                     player_idx, [])
@@ -182,10 +188,15 @@ class OpenSpielGame:
 
                 _step.set_move(action)
                 _match.add_step(_step)
+                #print("######################legal action list: ")
+                #print(observation_dict)
+                #print("#####################Action is: #####################")
+                #print(action)
+                #print("#####################legal actions#####################")
+                #print(legal_actions)
                 game_action = self.agent_action_to_openspiel(action)
                 self.logger.info(f"game_action:{game_action}")
                 num_step += 1
-
                 if not self.is_valid_move(game_action, legal_actions):
                     game_action = None
                     agent_name = agent_list[player_idx].agent_name
