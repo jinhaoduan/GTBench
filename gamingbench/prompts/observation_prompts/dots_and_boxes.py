@@ -32,5 +32,6 @@ def construct_observation_prompt(observations):
     legal_position_prompt = f'Currently, the legal positions are {legal_pos}'
 
     prompt = f'{_construct_head_prompt()}\n{opponent_prompt} {agent_prompt} {legal_position_prompt}'
+    
 
     return prompt

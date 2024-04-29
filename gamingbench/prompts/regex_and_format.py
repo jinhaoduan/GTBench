@@ -7,6 +7,9 @@ def get_step_env_regex_and_format(env_name):
     elif env_name == 'connect4':
         regex = '(<C[1-7]>|Column.{0,3}[1-7]|column.{0,3}[1-7])'
         format = '<Cx>, e.g., <C1>, <C7>'
+    elif env_name == "dots_and_boxes":
+        regex = '<(([A-C])(\d)-([A-C])(\d))>'
+        format = '<[A-C][1-3]-[A-C][1-3]>, e.g., <A1-B1>, <A1-A2>'
     elif env_name == 'TexasHoldem':
         regex = '<.+>'
         format = '<ALL IN>'
@@ -43,9 +46,6 @@ def get_step_env_regex_and_format(env_name):
         regex = "<(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>"
         format = "<(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>"
         format += ", e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>"
-    elif env_name == "dots_and_boxes":
-        regex = '<(([A-Z]+)(\d+)-([A-Z]+)(\d+))>'
-        format = '<[A-C][1-3]-[A-C][1-3]>, e.g., <A1-B1>, <A1-A2>'
     else:
         raise NotImplementedError
     return regex, format
