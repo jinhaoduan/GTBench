@@ -3,11 +3,14 @@ import json
 import subprocess
 
 
-def nra_value(winner_score, loser_score):
+def nra_value(me_score, opponent_score):
     '''
     return Normalized Relative Advantage (NRA) value
     '''
-    return (winner_score - loser_score) / (abs(winner_score) + abs(loser_score))
+    # avoid division by zero
+    if me_score == 0 and opponent_score == 0:
+        return 0
+    return (me_score - opponent_score) / (abs(me_score) + abs(opponent_score))
 
 
 def process_game_data(json_data):
@@ -22,18 +25,29 @@ def process_game_data(json_data):
             'nickname': model['nick_name']
         })
 
+    me = f'{agents_info[0]["agent_name"]}_{agents_info[0]["nickname"]}'
+    opponent = f'{agents_info[1]["agent_name"]}_{agents_info[1]["nickname"]}'
+
     if matches:
         winner = matches[0]['winner']
         winner_score = matches[0]['winner_score']
         loser_score = matches[0]['loser_score']
-        nra = nra_value(winner_score, loser_score)
+        # make dic mapping agent name to score
+        if winner == me:
+            scores = {me: winner_score,
+                      opponent: loser_score}
+        else:
+            scores = {me: loser_score,
+                      opponent: winner_score}
     else:
-        winner, nra = None, 0
+        winner = None
+        scores = {me: 0,
+                  opponent: 0}
 
     return {
         'agents': agents_info,
         'winner': winner,
-        'nra': nra
+        'scores': scores,
     }
 
 
@@ -93,9 +107,13 @@ def run_single_experiment(
         print("Error running command:", e)
 
 
-def setup_and_run_experiments(model, method):
-    opponent_model = 'gpt-35-turbo-1106'
-    exp_name = f'{model}_{method}'
+def setup_and_run_experiments(model, method, n):
+    if n < 3:
+        opponent_model = 'gpt-35-turbo-1106'
+    else:
+        opponent_model = model
+        model = 'gpt-35-turbo-1106'
+    exp_name = f'{model}_{method}_{n}'
     output_root = './experiments'
 
     output_dir = os.path.join(output_root, exp_name)
@@ -114,7 +132,7 @@ def setup_and_run_experiments(model, method):
 
 def main():
     models_methods = [
-        # ("gpt-4-turbo", "prompt_agent"),
+        ("gpt-4-turbo", "prompt_agent"),
         # ("gpt-4-turbo", "cot_agent"),
         # ("gpt-35-turbo-1106", "cot_agent"),
         # ("gpt-35-turbo-1106", "sccot_agent"),
@@ -123,17 +141,32 @@ def main():
         # ("Llama-2-70b-chat-hf", "sccot_agent"),
         # ("CodeLlama-34b-Instruct-hf", "cot_agent"),
         # ("Llama-2-70b-chat-hf", "cot_agent"),
-        # ("Mistral-7B-OpenOrca", "cot_agent"),
         # ("CodeLlama-34b-Instruct-hf", "sccot_agent"),
-        # ("Mistral-7B-Instruct-v01", "sccot_agent"),
         # ("CodeLlama-34b-Instruct-hf", "tot_agent"),
-        # ("Llama-2-70b-chat-hf", "prompt_agent"),
-        # ("Mistral-7B-OpenOrca", "tot_agent"),
-        # ("Mistral-7B-OpenOrca", "prompt_agent")
+        ("Llama-2-70b-chat-hf", "prompt_agent"),
     ]
 
     for model, method in models_methods:
-        setup_and_run_experiments(model, method)
+        llm_score = 0
+        opponent_score = 0
+        for i in range(4):
+            # setup_and_run_experiments(model, method, n=i+1)
+            folder = os.listdir(
+                f'experiments/{model}_{method}_{i+1}/{model}/crazy_eights')
+            # get the jsonl file from the folder
+            jsonl_file = [
+                file for file in folder if file.endswith('.jsonl')][0]
+            results = evaluate_single_file(
+                f'experiments/{model}_{method}_{i+1}/{model}/crazy_eights/{jsonl_file}')
+            print(f"Results for {model}_{method}_{i+1}:", results)
+            me = f'{results[0]["agents"][0]["agent_name"]}_{results[0]["agents"][0]["nickname"]}'
+            opponent = f'{results[0]["agents"][1]["agent_name"]}_{results[0]["agents"][1]["nickname"]}'
+            llm_score += results[0]['scores'][me]
+            opponent_score += results[0]['scores'][opponent]
+        nra = nra_value(llm_score, opponent_score)
+        print(f"{model}_{method} NRA value:", nra)
+        break
+
 
 if __name__ == "__main__":
     main()
