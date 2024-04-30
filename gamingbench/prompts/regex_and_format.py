@@ -8,7 +8,7 @@ def get_step_env_regex_and_format(env_name):
         regex = '(<C[1-7]>|Column.{0,3}[1-7]|column.{0,3}[1-7])'
         format = '<Cx>, e.g., <C1>, <C7>'
     elif env_name == "dots_and_boxes":
-        regex = '<(([A-C])(\d)-([A-C])(\d))>'
+        regex = '<(([A-C])(\d)[-−—]([A-C])(\d))>'
         format = '<[A-C][1-3]-[A-C][1-3]>, e.g., <A1-B1>, <A1-A2>'
     elif env_name == 'TexasHoldem':
         regex = '<.+>'
