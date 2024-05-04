@@ -9,6 +9,7 @@ import datetime
 # Get the current datetime
 current_time = datetime.datetime.now()
 
+
 # Format the datetime to MM-DD-YYYY-HH-MM
 formatted_time = current_time.strftime("%m-%d_%H-%M")
 
@@ -106,7 +107,7 @@ def run_single_experiment(
     agent_config_root='gamingbench/configs/agent_configs',
     agent_name='prompt_agent',
     opponent_agent_name='prompt_agent',
-    api_keys=['']
+    api_keys=[]
 ):
     
     rand =  str(int(np.random.rand() * 1000))
@@ -142,17 +143,27 @@ def run_single_experiment(
 
 
 def setup_and_run_experiments(model, method, game, n):
+
     static_model = model
-    if n % 2 == 1:
-        opponent_model = 'gpt-35-turbo-1106'
-    else:
-        opponent_model = model
-        model = 'gpt-35-turbo-1106'
+
     exp_name = f'{static_model}_{method}_{n}'
     output_root = f'./experiments_{formatted_time}'
 
     output_dir = os.path.join(output_root, exp_name)
     os.makedirs(output_dir, exist_ok=True)
+
+    if n % 2 == 1:
+        opponent_model = 'gpt-35-turbo-1106'
+        opponent_method = "prompt_agent"
+
+        model = model 
+        method = method 
+    else:
+        opponent_model = model
+        opponent_method = method 
+
+        model = 'gpt-35-turbo-1106'
+        method = "prompt_agent"
 
     run_single_experiment(
         output_root=output_root,
@@ -161,7 +172,7 @@ def setup_and_run_experiments(model, method, game, n):
         llm_name=model,
         opponent_llm_name=opponent_model,
         agent_name=method.lower(),
-        opponent_agent_name='prompt_agent'
+        opponent_agent_name=opponent_method.lower(), 
     )
 
 
@@ -211,7 +222,6 @@ def main():
 
             print("did not finish this match")
             overall_log(log_file_name, "ABNORMAL STATUS DID NOT FINISH THIS MATCH")
-
 
         else:
 
