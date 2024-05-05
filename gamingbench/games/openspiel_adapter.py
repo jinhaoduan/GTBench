@@ -159,7 +159,8 @@ class OpenSpielGame:
                 if len(legal_actions) != 1:
                     action, query_list = agent_list[player_idx].step(
                         observation_dict)
-                    action = ''.join(('<', action[1], action[2], '-', action[3], action[4], '>'))
+                    if self.game_name == 'dots_and_boxes':
+                        action = ''.join(('<', action[1], action[2], '-', action[3], action[4], '>'))
                 else:
                     action, query_list = valid_action[0], []
 

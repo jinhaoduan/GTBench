@@ -8,7 +8,7 @@ def construct_step_prompt(observation):
 
     regex, format = get_step_env_regex_and_format(env_name)
 
-    prompt = f"""You must choose an legal action to set up advantages.
+    prompt = f"""First think about your current situation, then you must choose one action from legal actions to set up advantages.
 
 Your output must be in the following format:
 
