@@ -1,0 +1,671 @@
+
+(base) kevin@Kevins-Laptop-2 GTBench % cat ./llm_vs_x.sh 
+
+seed=0
+output_root="./experiments"
+exp_name='test'
+num_matches=1 # number of matches
+num_workers=1 # run 20 matches in parallel
+threshold_matches=100 # maximum number of matches, stop criteria for low completion rate, e.g., LLM agents always generate illegal actions.
+# suports all the games listed in ./gamingbench/configs/game_configs/*.yaml
+game_name='crazy_eights'
+# supports all the llms defined in ./gamingbench/configs/model_configs/*.yaml
+model_config_root='gamingbench/configs/model_configs'
+llm_name='Bob' # CodeLlama-34b-Instruct-hf
+opponent_llm_name='Alice' # gpt-3.5
+# supports all the reasoning methods defined in ./gamingbench/agent_configs/*.yaml
+agent_config_root='gamingbench/configs/agent_configs'
+agent_name='prompt_agent'
+opponent_agent_name='prompt_agent'
+declare -a api_keys=("" "")
+
+python3 -m gamingbench.main \
+    --num-matches ${num_matches} \
+    --exp-root ${output_root}/${exp_name}/${llm_name} \
+    --seed ${seed} \
+    --game-name ${game_name} \
+    --agent-configs ${agent_config_root}/${agent_name}.yaml ${agent_config_root}/${opponent_agent_name}.yaml \
+    --model-configs ${model_config_root}/${llm_name}.yaml ${model_config_root}/${opponent_llm_name}.yaml \
+    --api-keys ${api_keys[@]} \
+    --exchange-first-player \
+    --num-workers ${num_workers} \
+    --threshold-matches ${threshold_matches}
+
+
+(base) kevin@Kevins-Laptop-2 GTBench % ./llm_vs_x.sh
+/Users/kevin/anaconda3/lib/python3.11/site-packages/langchain/chat_models/__init__.py:31: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+`from langchain_community.chat_models import ChatOpenAI`.
+
+To install langchain-community run `pip install -U langchain-community`.
+  warnings.warn(
+/Users/kevin/anaconda3/lib/python3.11/site-packages/langchain/chat_models/__init__.py:31: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+`from langchain_community.chat_models import ChatAnyscale`.
+
+To install langchain-community run `pip install -U langchain-community`.
+  warnings.warn(
+Chance node, got 2 outcomes
+Sampled outcome:  Decide Player 1 to be the dealer
+Chance node, got 52 outcomes
+Sampled outcome:  Deal DJ
+Chance node, got 51 outcomes
+Sampled outcome:  Deal H9
+Chance node, got 50 outcomes
+Sampled outcome:  Deal S8
+Chance node, got 49 outcomes
+Sampled outcome:  Deal C7
+Chance node, got 48 outcomes
+Sampled outcome:  Deal HT
+Chance node, got 47 outcomes
+Sampled outcome:  Deal D7
+Chance node, got 46 outcomes
+Sampled outcome:  Deal SK
+Chance node, got 45 outcomes
+Sampled outcome:  Deal HA
+Chance node, got 44 outcomes
+Sampled outcome:  Deal C6
+Chance node, got 43 outcomes
+Sampled outcome:  Deal DQ
+Chance node, got 42 outcomes
+Sampled outcome:  Deal D8
+Chance node, got 41 outcomes
+Sampled outcome:  Deal C9
+Chance node, got 40 outcomes
+Sampled outcome:  Deal CA
+Chance node, got 39 outcomes
+Sampled outcome:  Deal H2
+Chance node, got 38 outcomes
+Sampled outcome:  Deal C3
+2024-04-28 01:13:48,288 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+/Users/kevin/anaconda3/lib/python3.11/site-packages/langchain_core/_api/deprecation.py:117: LangChainDeprecationWarning: The class `langchain_community.chat_models.openai.ChatOpenAI` was deprecated in langchain-community 0.0.10 and will be removed in 0.2.0. An updated version of the class exists in the langchain-openai package and should be used instead. To use it run `pip install -U langchain-openai` and import as `from langchain_openai import ChatOpenAI`.
+  warn_deprecated(
+2024-04-28 01:13:49,015 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['6 of Clubs', 'Ace of Clubs', '8 of Diamonds', 'Jack of Diamonds', '10 of Hearts', '8 of Spades', 'King of Spades']. 
+You must match the top card 3 of Clubs with the next card you play or must draw from the stockpile.
+You opponent's hand contains 8 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. 
+
+ Your legal moves are: <Play 6 of Clubs>, <Play 8 of Diamonds>, <Play 8 of Spades>, <Play Ace of Clubs>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:49,015 - gamingbench.utils.utils - INFO - Response: ['<Action: <Play 6 of Clubs>>']
+2024-04-28 01:13:49,016 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:49,016 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[16, 25, 27, 48, 52]
+2024-04-28 01:13:49,016 - gamingbench.utils.utils - INFO - validMove:['<Play 6 of Clubs>', '<Play 8 of Diamonds>', '<Play 8 of Spades>', '<Play Ace of Clubs>', '<Draw>']
+2024-04-28 01:13:49,016 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Play 6 of Clubs', '6', 'Clubs', '')
+2024-04-28 01:13:49,016 - gamingbench.utils.utils - INFO - game_action:16
+2024-04-28 01:13:49,017 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:49,478 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['3 of Clubs', '7 of Clubs', '9 of Clubs', '7 of Diamonds', 'Queen of Diamonds', '2 of Hearts', '9 of Hearts', 'Ace of Hearts']. 
+You must match the top card 6 of Clubs with the next card you play or must draw from the stockpile.
+You opponent's hand contains 6 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, you drew 3 of Clubs. Next, your opponent played 6 of Clubs. 
+
+ Your legal moves are: <Play 3 of Clubs>, <Play 7 of Clubs>, <Play 9 of Clubs>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:49,478 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 3 of Clubs>']
+2024-04-28 01:13:49,478 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:49,478 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[4, 20, 28, 52]
+2024-04-28 01:13:49,479 - gamingbench.utils.utils - INFO - validMove:['<Play 3 of Clubs>', '<Play 7 of Clubs>', '<Play 9 of Clubs>', '<Draw>']
+2024-04-28 01:13:49,479 - gamingbench.utils.utils - INFO - player: 1 agent:PromptAgent, action: ('Play 3 of Clubs', '3', 'Clubs', '')
+2024-04-28 01:13:49,479 - gamingbench.utils.utils - INFO - game_action:4
+2024-04-28 01:13:49,479 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:50,048 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['Ace of Clubs', '8 of Diamonds', 'Jack of Diamonds', '10 of Hearts', '8 of Spades', 'King of Spades']. 
+You must match the top card 3 of Clubs with the next card you play or must draw from the stockpile.
+You opponent's hand contains 7 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. 
+
+ Your legal moves are: <Play 8 of Diamonds>, <Play 8 of Spades>, <Play Ace of Clubs>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:50,049 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 8 of Diamonds>']
+2024-04-28 01:13:50,049 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:50,049 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[25, 27, 48, 52]
+2024-04-28 01:13:50,049 - gamingbench.utils.utils - INFO - validMove:['<Play 8 of Diamonds>', '<Play 8 of Spades>', '<Play Ace of Clubs>', '<Draw>']
+2024-04-28 01:13:50,049 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Play 8 of Diamonds', '8', 'Diamonds', '')
+2024-04-28 01:13:50,049 - gamingbench.utils.utils - INFO - game_action:25
+2024-04-28 01:13:50,049 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:50,489 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['Ace of Clubs', 'Jack of Diamonds', '10 of Hearts', '8 of Spades', 'King of Spades']. 
+You must match the top card 8 of Diamonds with the next card you play or must draw from the stockpile.
+You opponent's hand contains 7 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. Next, you played 8 of Diamonds. 
+
+ Your legal moves are: <Nominate Clubs>, <Nominate Diamonds>, <Nominate Hearts>, <Nominate Spades>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:50,489 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Nominate Hearts>']
+2024-04-28 01:13:50,489 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:50,489 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[54, 55, 56, 57]
+2024-04-28 01:13:50,489 - gamingbench.utils.utils - INFO - validMove:['<Nominate Clubs>', '<Nominate Diamonds>', '<Nominate Hearts>', '<Nominate Spades>']
+2024-04-28 01:13:50,489 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Nominate Hearts', '', '', 'Hearts')
+2024-04-28 01:13:50,489 - gamingbench.utils.utils - INFO - game_action:56
+2024-04-28 01:13:50,489 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:51,029 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['7 of Clubs', '9 of Clubs', '7 of Diamonds', 'Queen of Diamonds', '2 of Hearts', '9 of Hearts', 'Ace of Hearts']. 
+You must match the suit Hearts with the next card you play or must draw from stockpile.
+You opponent's hand contains 5 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, you drew 3 of Clubs. Next, your opponent played 6 of Clubs. Next, you played 3 of Clubs. Next, your opponent played 8 of Diamonds. Next, your opponent nominates H as new suit. 
+
+ Your legal moves are: <Play 2 of Hearts>, <Play 9 of Hearts>, <Play Ace of Hearts>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:51,029 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 9 of Hearts>']
+2024-04-28 01:13:51,029 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:51,029 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[2, 30, 50, 52]
+2024-04-28 01:13:51,029 - gamingbench.utils.utils - INFO - validMove:['<Play 2 of Hearts>', '<Play 9 of Hearts>', '<Play Ace of Hearts>', '<Draw>']
+2024-04-28 01:13:51,030 - gamingbench.utils.utils - INFO - player: 1 agent:PromptAgent, action: ('Play 9 of Hearts', '9', 'Hearts', '')
+2024-04-28 01:13:51,030 - gamingbench.utils.utils - INFO - game_action:30
+2024-04-28 01:13:51,030 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:51,540 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['Ace of Clubs', 'Jack of Diamonds', '10 of Hearts', '8 of Spades', 'King of Spades']. 
+You must match the top card 9 of Hearts with the next card you play or must draw from the stockpile.
+You opponent's hand contains 6 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. Next, you played 8 of Diamonds. Next, you nominated H as new suit. Next, your opponent played 9 of Hearts. 
+
+ Your legal moves are: <Play 8 of Spades>, <Play 10 of Hearts>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:51,540 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 10 of Hearts>']
+2024-04-28 01:13:51,540 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:51,540 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[27, 34, 52]
+2024-04-28 01:13:51,540 - gamingbench.utils.utils - INFO - validMove:['<Play 8 of Spades>', '<Play 10 of Hearts>', '<Draw>']
+2024-04-28 01:13:51,540 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Play 10 of Hearts', '10', 'Hearts', '')
+2024-04-28 01:13:51,540 - gamingbench.utils.utils - INFO - game_action:34
+2024-04-28 01:13:51,540 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:52,051 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['7 of Clubs', '9 of Clubs', '7 of Diamonds', 'Queen of Diamonds', '2 of Hearts', 'Ace of Hearts']. 
+You must match the top card 10 of Hearts with the next card you play or must draw from the stockpile.
+You opponent's hand contains 4 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, you drew 3 of Clubs. Next, your opponent played 6 of Clubs. Next, you played 3 of Clubs. Next, your opponent played 8 of Diamonds. Next, your opponent nominates H as new suit. Next, you played 9 of Hearts. Next, your opponent played 10 of Hearts. 
+
+ Your legal moves are: <Play 2 of Hearts>, <Play Ace of Hearts>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:52,051 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play Ace of Hearts>']
+2024-04-28 01:13:52,051 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:52,051 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[2, 50, 52]
+2024-04-28 01:13:52,052 - gamingbench.utils.utils - INFO - validMove:['<Play 2 of Hearts>', '<Play Ace of Hearts>', '<Draw>']
+2024-04-28 01:13:52,052 - gamingbench.utils.utils - INFO - player: 1 agent:PromptAgent, action: ('Play Ace of Hearts', 'Ace', 'Hearts', '')
+2024-04-28 01:13:52,052 - gamingbench.utils.utils - INFO - game_action:50
+2024-04-28 01:13:52,052 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:52,667 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['Ace of Clubs', 'Jack of Diamonds', '8 of Spades', 'King of Spades']. 
+You must match the top card Ace of Hearts with the next card you play or must draw from the stockpile.
+You opponent's hand contains 5 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. Next, you played 8 of Diamonds. Next, you nominated H as new suit. Next, your opponent played 9 of Hearts. Next, you played 10 of Hearts. Next, your opponent played Ace of Hearts. 
+
+ Your legal moves are: <Play 8 of Spades>, <Play Ace of Clubs>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:52,668 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 8 of Spades>']
+2024-04-28 01:13:52,668 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:52,668 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[27, 48, 52]
+2024-04-28 01:13:52,668 - gamingbench.utils.utils - INFO - validMove:['<Play 8 of Spades>', '<Play Ace of Clubs>', '<Draw>']
+2024-04-28 01:13:52,668 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Play 8 of Spades', '8', 'Spades', '')
+2024-04-28 01:13:52,668 - gamingbench.utils.utils - INFO - game_action:27
+2024-04-28 01:13:52,668 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:53,178 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['Ace of Clubs', 'Jack of Diamonds', 'King of Spades']. 
+You must match the top card 8 of Spades with the next card you play or must draw from the stockpile.
+You opponent's hand contains 5 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. Next, you played 8 of Diamonds. Next, you nominated H as new suit. Next, your opponent played 9 of Hearts. Next, you played 10 of Hearts. Next, your opponent played Ace of Hearts. Next, you played 8 of Spades. 
+
+ Your legal moves are: <Nominate Clubs>, <Nominate Diamonds>, <Nominate Hearts>, <Nominate Spades>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:53,179 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Nominate Clubs>']
+2024-04-28 01:13:53,179 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:53,179 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[54, 55, 56, 57]
+2024-04-28 01:13:53,179 - gamingbench.utils.utils - INFO - validMove:['<Nominate Clubs>', '<Nominate Diamonds>', '<Nominate Hearts>', '<Nominate Spades>']
+2024-04-28 01:13:53,179 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Nominate Clubs', '', '', 'Clubs')
+2024-04-28 01:13:53,179 - gamingbench.utils.utils - INFO - game_action:54
+2024-04-28 01:13:53,179 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:53,624 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['7 of Clubs', '9 of Clubs', '7 of Diamonds', 'Queen of Diamonds', '2 of Hearts']. 
+You must match the suit Clubs with the next card you play or must draw from stockpile.
+You opponent's hand contains 3 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, you drew 3 of Clubs. Next, your opponent played 6 of Clubs. Next, you played 3 of Clubs. Next, your opponent played 8 of Diamonds. Next, your opponent nominates H as new suit. Next, you played 9 of Hearts. Next, your opponent played 10 of Hearts. Next, you played Ace of Hearts. Next, your opponent played 8 of Spades. Next, your opponent nominates C as new suit. 
+
+ Your legal moves are: <Play 7 of Clubs>, <Play 9 of Clubs>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:53,624 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 7 of Clubs>']
+2024-04-28 01:13:53,625 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:53,625 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[20, 28, 52]
+2024-04-28 01:13:53,625 - gamingbench.utils.utils - INFO - validMove:['<Play 7 of Clubs>', '<Play 9 of Clubs>', '<Draw>']
+2024-04-28 01:13:53,625 - gamingbench.utils.utils - INFO - player: 1 agent:PromptAgent, action: ('Play 7 of Clubs', '7', 'Clubs', '')
+2024-04-28 01:13:53,625 - gamingbench.utils.utils - INFO - game_action:20
+2024-04-28 01:13:53,625 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:54,198 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['Ace of Clubs', 'Jack of Diamonds', 'King of Spades']. 
+You must match the top card 7 of Clubs with the next card you play or must draw from the stockpile.
+You opponent's hand contains 4 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. Next, you played 8 of Diamonds. Next, you nominated H as new suit. Next, your opponent played 9 of Hearts. Next, you played 10 of Hearts. Next, your opponent played Ace of Hearts. Next, you played 8 of Spades. Next, you nominated C as new suit. Next, your opponent played 7 of Clubs. 
+
+ Your legal moves are: <Play Ace of Clubs>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:54,199 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play Ace of Clubs>']
+2024-04-28 01:13:54,199 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:54,199 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[48, 52]
+2024-04-28 01:13:54,199 - gamingbench.utils.utils - INFO - validMove:['<Play Ace of Clubs>', '<Draw>']
+2024-04-28 01:13:54,199 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Play Ace of Clubs', 'Ace', 'Clubs', '')
+2024-04-28 01:13:54,199 - gamingbench.utils.utils - INFO - game_action:48
+2024-04-28 01:13:54,199 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:54,773 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['9 of Clubs', '7 of Diamonds', 'Queen of Diamonds', '2 of Hearts']. 
+You must match the top card Ace of Clubs with the next card you play or must draw from the stockpile.
+You opponent's hand contains 2 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, you drew 3 of Clubs. Next, your opponent played 6 of Clubs. Next, you played 3 of Clubs. Next, your opponent played 8 of Diamonds. Next, your opponent nominates H as new suit. Next, you played 9 of Hearts. Next, your opponent played 10 of Hearts. Next, you played Ace of Hearts. Next, your opponent played 8 of Spades. Next, your opponent nominates C as new suit. Next, you played 7 of Clubs. Next, your opponent played Ace of Clubs. 
+
+ Your legal moves are: <Play 9 of Clubs>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:54,773 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 9 of Clubs>']
+2024-04-28 01:13:54,773 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:54,773 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[28, 52]
+2024-04-28 01:13:54,773 - gamingbench.utils.utils - INFO - validMove:['<Play 9 of Clubs>', '<Draw>']
+2024-04-28 01:13:54,773 - gamingbench.utils.utils - INFO - player: 1 agent:PromptAgent, action: ('Play 9 of Clubs', '9', 'Clubs', '')
+2024-04-28 01:13:54,773 - gamingbench.utils.utils - INFO - game_action:28
+2024-04-28 01:13:54,774 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[52]
+2024-04-28 01:13:54,774 - gamingbench.utils.utils - INFO - validMove:['<Draw>']
+2024-04-28 01:13:54,774 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: <Draw>
+2024-04-28 01:13:54,774 - gamingbench.utils.utils - INFO - game_action:52
+Chance node, got 37 outcomes
+Sampled outcome:  Deal C2
+2024-04-28 01:13:54,774 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:55,214 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['2 of Clubs', 'Jack of Diamonds', 'King of Spades']. 
+You must match the top card 9 of Clubs with the next card you play or must draw from the stockpile.
+You opponent's hand contains 3 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. Next, you played 8 of Diamonds. Next, you nominated H as new suit. Next, your opponent played 9 of Hearts. Next, you played 10 of Hearts. Next, your opponent played Ace of Hearts. Next, you played 8 of Spades. Next, you nominated C as new suit. Next, your opponent played 7 of Clubs. Next, you played Ace of Clubs. Next, your opponent played 9 of Clubs. Next, you played 9 of Clubs. Next, you drew 2 of Clubs. 
+
+ Your legal moves are: <Play 2 of Clubs>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:55,214 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 2 of Clubs>']
+2024-04-28 01:13:55,214 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:55,214 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[0, 52]
+2024-04-28 01:13:55,214 - gamingbench.utils.utils - INFO - validMove:['<Play 2 of Clubs>', '<Draw>']
+2024-04-28 01:13:55,214 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Play 2 of Clubs', '2', 'Clubs', '')
+2024-04-28 01:13:55,214 - gamingbench.utils.utils - INFO - game_action:0
+2024-04-28 01:13:55,215 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:55,736 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['7 of Diamonds', 'Queen of Diamonds', '2 of Hearts']. 
+You must match the top card 2 of Clubs with the next card you play or must draw from the stockpile.
+You opponent's hand contains 2 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, you drew 3 of Clubs. Next, your opponent played 6 of Clubs. Next, you played 3 of Clubs. Next, your opponent played 8 of Diamonds. Next, your opponent nominates H as new suit. Next, you played 9 of Hearts. Next, your opponent played 10 of Hearts. Next, you played Ace of Hearts. Next, your opponent played 8 of Spades. Next, your opponent nominates C as new suit. Next, you played 7 of Clubs. Next, your opponent played Ace of Clubs. Next, you played 9 of Clubs. Next, your opponent played 9 of Clubs. Next, your opponent drew a card. Next, your opponent played 2 of Clubs. 
+
+ Your legal moves are: <Play 2 of Hearts>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:55,736 - gamingbench.utils.utils - INFO - Response: ['Action: <Play 2 of Hearts>']
+2024-04-28 01:13:55,736 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:55,736 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[2, 52]
+2024-04-28 01:13:55,737 - gamingbench.utils.utils - INFO - validMove:['<Play 2 of Hearts>', '<Draw>']
+2024-04-28 01:13:55,737 - gamingbench.utils.utils - INFO - player: 1 agent:PromptAgent, action: ('Play 2 of Hearts', '2', 'Hearts', '')
+2024-04-28 01:13:55,737 - gamingbench.utils.utils - INFO - game_action:2
+2024-04-28 01:13:55,737 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[52]
+2024-04-28 01:13:55,737 - gamingbench.utils.utils - INFO - validMove:['<Draw>']
+2024-04-28 01:13:55,737 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: <Draw>
+2024-04-28 01:13:55,737 - gamingbench.utils.utils - INFO - game_action:52
+Chance node, got 36 outcomes
+Sampled outcome:  Deal HQ
+2024-04-28 01:13:55,738 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:56,129 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['Jack of Diamonds', 'Queen of Hearts', 'King of Spades']. 
+You must match the top card 2 of Hearts with the next card you play or must draw from the stockpile.
+You opponent's hand contains 2 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. Next, you played 8 of Diamonds. Next, you nominated H as new suit. Next, your opponent played 9 of Hearts. Next, you played 10 of Hearts. Next, your opponent played Ace of Hearts. Next, you played 8 of Spades. Next, you nominated C as new suit. Next, your opponent played 7 of Clubs. Next, you played Ace of Clubs. Next, your opponent played 9 of Clubs. Next, you played 9 of Clubs. Next, you drew 2 of Clubs. Next, you played 2 of Clubs. Next, your opponent played 2 of Hearts. Next, you played 2 of Hearts. Next, you drew Queen of Hearts. 
+
+ Your legal moves are: <Play Queen of Hearts>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:56,130 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play Queen of Hearts>']
+2024-04-28 01:13:56,130 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:56,130 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[42, 52]
+2024-04-28 01:13:56,130 - gamingbench.utils.utils - INFO - validMove:['<Play Queen of Hearts>', '<Draw>']
+2024-04-28 01:13:56,130 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Play Queen of Hearts', 'Queen', 'Hearts', '')
+2024-04-28 01:13:56,130 - gamingbench.utils.utils - INFO - game_action:42
+2024-04-28 01:13:56,130 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:56,557 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['7 of Diamonds', 'Queen of Diamonds']. 
+You must match the top card Queen of Hearts with the next card you play or must draw from the stockpile.
+You opponent's hand contains 2 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, you drew 3 of Clubs. Next, your opponent played 6 of Clubs. Next, you played 3 of Clubs. Next, your opponent played 8 of Diamonds. Next, your opponent nominates H as new suit. Next, you played 9 of Hearts. Next, your opponent played 10 of Hearts. Next, you played Ace of Hearts. Next, your opponent played 8 of Spades. Next, your opponent nominates C as new suit. Next, you played 7 of Clubs. Next, your opponent played Ace of Clubs. Next, you played 9 of Clubs. Next, your opponent played 9 of Clubs. Next, your opponent drew a card. Next, your opponent played 2 of Clubs. Next, you played 2 of Hearts. Next, your opponent played 2 of Hearts. Next, your opponent drew a card. Next, your opponent played Queen of Hearts. 
+
+ Your legal moves are: <Play Queen of Diamonds>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:56,557 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play Queen of Diamonds>']
+2024-04-28 01:13:56,558 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:56,558 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[41, 52]
+2024-04-28 01:13:56,558 - gamingbench.utils.utils - INFO - validMove:['<Play Queen of Diamonds>', '<Draw>']
+2024-04-28 01:13:56,558 - gamingbench.utils.utils - INFO - player: 1 agent:PromptAgent, action: ('Play Queen of Diamonds', 'Queen', 'Diamonds', '')
+2024-04-28 01:13:56,558 - gamingbench.utils.utils - INFO - game_action:41
+2024-04-28 01:13:56,558 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:57,117 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['Jack of Diamonds', 'King of Spades']. 
+You must match the top card Queen of Diamonds with the next card you play or must draw from the stockpile.
+You opponent's hand contains 1 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, your opponent drew a card. Next, you played 6 of Clubs. Next, your opponent played 3 of Clubs. Next, you played 8 of Diamonds. Next, you nominated H as new suit. Next, your opponent played 9 of Hearts. Next, you played 10 of Hearts. Next, your opponent played Ace of Hearts. Next, you played 8 of Spades. Next, you nominated C as new suit. Next, your opponent played 7 of Clubs. Next, you played Ace of Clubs. Next, your opponent played 9 of Clubs. Next, you played 9 of Clubs. Next, you drew 2 of Clubs. Next, you played 2 of Clubs. Next, your opponent played 2 of Hearts. Next, you played 2 of Hearts. Next, you drew Queen of Hearts. Next, you played Queen of Hearts. Next, your opponent played Queen of Diamonds. 
+
+ Your legal moves are: <Play Jack of Diamonds>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:57,117 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play Jack of Diamonds>']
+2024-04-28 01:13:57,117 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:57,117 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[37, 52]
+2024-04-28 01:13:57,117 - gamingbench.utils.utils - INFO - validMove:['<Play Jack of Diamonds>', '<Draw>']
+2024-04-28 01:13:57,118 - gamingbench.utils.utils - INFO - player: 0 agent:PromptAgent, action: ('Play Jack of Diamonds', 'Jack', 'Diamonds', '')
+2024-04-28 01:13:57,118 - gamingbench.utils.utils - INFO - game_action:37
+2024-04-28 01:13:57,118 - gamingbench.utils.utils - INFO - --------------------PromptAgent Begin--------------------
+2024-04-28 01:13:57,684 - gamingbench.utils.utils - INFO - Prompt: 
+Crazy Eights is a shedding-type card game with a standard 52-card deck. The object of the game is to be the first player to discard all of their cards. There are two players in this game.
+Seven cards are dealt to each player. The remaining cards of the deck are placed face down at the center of the table as the stock pile. The top card is then turned face up to start the game as the first card in the discard pile.
+In each player's turn, it needs to play a card that either match the suit or the rank of the card on the top of the discard pile. And then place this card on the discard pile top for the next player to match. 
+A player can play an 8 as a wild card, however, at anytime. If it does, it needs to nominate a card suit needs to be nominated for the next player to match.
+A player can also decide to draw cards from the stock pile. Notice that it is the only action available if it does not have a available card to play at its turn. But it doesn't prevent the player to draw cards even if it has playable.
+If a player plays a card, it cannot draw at the current turn anymore. A player may draw up to five cards consecutively before ending its turn.
+If there are no remaining cards in the stock pile, all cards in the discard pile are shuffled and add those cards are added to the stock pile.
+The game ends once a player exhausted all cards in its hand.
+You are playing CrazyEights with the opponent. The actions are denoted by <Draw> for drawing a card from the stockpile, <Play {CARD}> for putting on the discard pile the specific card, and <Nominate {SUIT}> for nominating a new suit to change.
+Your current hand contains ['7 of Diamonds']. 
+You must match the top card Jack of Diamonds with the next card you play or must draw from the stockpile.
+You opponent's hand contains 1 cards.
+The following is the sequence of play between you and your opponent: First, both you and your opponent were dealt seven cards. Next, you drew 3 of Clubs. Next, your opponent played 6 of Clubs. Next, you played 3 of Clubs. Next, your opponent played 8 of Diamonds. Next, your opponent nominates H as new suit. Next, you played 9 of Hearts. Next, your opponent played 10 of Hearts. Next, you played Ace of Hearts. Next, your opponent played 8 of Spades. Next, your opponent nominates C as new suit. Next, you played 7 of Clubs. Next, your opponent played Ace of Clubs. Next, you played 9 of Clubs. Next, your opponent played 9 of Clubs. Next, your opponent drew a card. Next, your opponent played 2 of Clubs. Next, you played 2 of Hearts. Next, your opponent played 2 of Hearts. Next, your opponent drew a card. Next, your opponent played Queen of Hearts. Next, you played Queen of Diamonds. Next, your opponent played Jack of Diamonds. 
+
+ Your legal moves are: <Play 7 of Diamonds>, <Draw>.
+You must choose an legal action to set up advantages.
+
+Your output must be in the following format:
+
+Action:
+Your action wrapped with <>, <(Draw|Pass on Draw|Play (2|3|4|5|6|7|8|9|10|Jack|Queen|King|Ace) of (Clubs|Diamonds|Hearts|Spades)|Nominate (Clubs|Diamonds|Hearts|Spades))>, e.g. <Draw>, <Pass on Draw>,<Play 5 of Clubs>, <Play 8 of Diamonds>, <Nominate Hearts>
+
+Please return your answer without explanation!
+
+2024-04-28 01:13:57,684 - gamingbench.utils.utils - INFO - Response: ['Action:\n<Play 7 of Diamonds>']
+2024-04-28 01:13:57,684 - gamingbench.utils.utils - INFO - --------------------PromptAgent End--------------------
+2024-04-28 01:13:57,684 - gamingbench.utils.utils - INFO - openspiel_game_legal_action:[21, 52]
+2024-04-28 01:13:57,684 - gamingbench.utils.utils - INFO - validMove:['<Play 7 of Diamonds>', '<Draw>']
+2024-04-28 01:13:57,684 - gamingbench.utils.utils - INFO - player: 1 agent:PromptAgent, action: ('Play 7 of Diamonds', '7', 'Diamonds', '')
+2024-04-28 01:13:57,684 - gamingbench.utils.utils - INFO - game_action:21
+2024-04-28 01:13:57,685 - gamingbench.utils.utils - INFO - The winner is PromptAgent_gpt-3.5-turbo-1106
+(base) kevin@Kevins-Laptop-2 GTBench % 

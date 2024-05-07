@@ -15,6 +15,10 @@ import copy
 class OpenSpielGame:
     def __init__(self, game_name) -> None:
         self.game_name = game_name
+
+        if game_name == "crazy_eights": 
+            game_name = "crazy_eights(players=2)"
+
         self.game = pyspiel.load_game(game_name)
         self.env = self.game.new_initial_state()
         self.logger = utils.LLMBenchLogger(None)
@@ -114,8 +118,17 @@ class OpenSpielGame:
                                 self.env, self.env.current_player, action)
 
             else:
+
+                # print("num of players" + str(self.env.num_players()))
                 player_idx = self.env.current_player()
+
+                # continuePlaying = True 
+
+                # while continuePlaying: 
                 # init step
+
+                # print(f"player_idx {player_idx}")
+                # print(f"agent_list {agent_list}")
                 _step = Step(agent_list[player_idx].agent_name)
                 _step.set_model_name(model_list[player_idx].nick_name)
 

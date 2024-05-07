@@ -1,5 +1,3 @@
-
-
 from gamingbench.games.openspiel_adapter import OpenSpielGame
 
 
