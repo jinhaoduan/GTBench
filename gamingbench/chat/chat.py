@@ -15,7 +15,7 @@ def chat_llm(messages, model, temperature, max_tokens, n, timeout, stop, return_
     if model.__contains__("gpt"):
         iterated_query = False
         chat = ChatOpenAI(model_name=model,
-                          openai_api_key=os.environ['OPENAI_API_KEY'],
+                          openai_api_key="", # OPEN AI API KEY
                           temperature=temperature,
                           max_tokens=max_tokens,
                           n=n,
@@ -33,7 +33,7 @@ def chat_llm(messages, model, temperature, max_tokens, n, timeout, stop, return_
         # deepinfra
         iterated_query = True
         chat = ChatOpenAI(model_name=model,
-                          openai_api_key=os.environ['DEEPINFRA_API_KEY'],
+                          openai_api_key="", # DEEP INFRA API KEY
                           temperature=temperature,
                           max_tokens=max_tokens,
                           n=1,

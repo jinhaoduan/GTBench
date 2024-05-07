@@ -2,7 +2,6 @@ import os
 import json
 import subprocess
 import sys 
-import random
 import numpy as np
 import datetime 
 
@@ -107,7 +106,7 @@ def run_single_experiment(
     agent_config_root='gamingbench/configs/agent_configs',
     agent_name='prompt_agent',
     opponent_agent_name='prompt_agent',
-    api_keys=[]
+    api_keys=["" ""] # {OPEN AI API KEY} {DEEP INFRA API KEY}
 ):
     
     rand =  str(int(np.random.rand() * 1000))
@@ -235,8 +234,8 @@ def main():
             
             valid_matches_list.append(result)
 
-        if overall_number_of_matches_run == 50: 
-            completion_rate = len(valid_matches_list) / 50 
+        if overall_number_of_matches_run == num_matches: 
+            completion_rate = len(valid_matches_list) / num_matches 
             
 
         print(f"------ Completed Match #{overall_number_of_matches_run:02} ------")
@@ -245,9 +244,7 @@ def main():
 
 
     gpt_35_score_sum = sum([el[1] for el in valid_matches_list])
-    # print(gpt_35_score_sum)
     opponent_score_sum = sum([el[2] for el in valid_matches_list])
-    # print(opponent_score_sum)
 
 
     nra_value = NRA_value_calculation(opponent_score_sum,gpt_35_score_sum)
