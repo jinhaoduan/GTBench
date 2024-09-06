@@ -3,7 +3,6 @@ import pyspiel
 import open_spiel
 
 from typing import List
-from pettingzoo.classic import tictactoe_v3
 from gamingbench.utils.history_tracker import GameMatch, Step
 from gamingbench.utils import utils
 
